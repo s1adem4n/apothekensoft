@@ -26,7 +26,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y nsis lld llvm clang
+          sudo apt-get install -y nsis lld llvm clang libayatana-appindicator3-dev
 
       - name: Install cargo-xwin
         run: cargo install --locked cargo-xwin
