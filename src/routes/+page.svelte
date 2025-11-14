@@ -17,17 +17,13 @@
 			const index = string.indexOf('0104150');
 			if (index !== -1) {
 				setTimeout(() => {
+					alert(string.substring(index));
 					data = parseGS1(string.substring(index));
-				}, 250);
+				}, 500);
 			}
 		});
-
-		setInterval(() => {
-			invoke('simulate_key', { key: 'a', press: true }).catch((err) => {
-				alert(`Failed to simulate key press: ${err}`);
-			});
-		}, 1000);
 	});
 </script>
 
+<pre>{string}</pre>
 <pre>{JSON.stringify(data, null, 2)}</pre>
