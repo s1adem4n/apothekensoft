@@ -17,11 +17,13 @@ jobs:
       - name: Setup bun
         uses: oven-sh/setup-bun@v2
 
-      - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+      - name: Setup Rust
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          cache-workspaces: src-tauri
 
       - name: Install frontend dependencies
-        run: yarn install # change this to npm, pnpm or bun depending on which one you use.
+        run: bun install
 
       - uses: tauri-apps/tauri-action@v0.6
         env:
