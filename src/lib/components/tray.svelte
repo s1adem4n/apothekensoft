@@ -34,9 +34,16 @@
 			]
 		});
 
-		const tray = await TrayIcon.new({
+		await TrayIcon.new({
 			menu,
 			showMenuOnLeftClick: false,
+			action: (e) => {
+				if (e.type === 'Click' && e.button === 'Left') {
+					const window = getCurrentWindow();
+					window.show();
+					window.setFocus();
+				}
+			},
 			icon: (await defaultWindowIcon())!
 		});
 	}

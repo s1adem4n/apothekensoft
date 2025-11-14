@@ -1,4 +1,4 @@
-import { load, Store as TauriStore } from '@tauri-apps/plugin-store';
+import { load, type Store as TauriStore } from '@tauri-apps/plugin-store';
 
 export interface Settings {
 	expiryDetection: {
