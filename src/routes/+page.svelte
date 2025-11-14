@@ -84,8 +84,10 @@
 	</Button>
 
 	<div class="mt-10 flex flex-1 flex-col gap-4 overflow-y-auto">
-		{#if !scanning}
+		{#if scanning}
 			<div>Scannt...</div>
+		{:else}
+			<div>Warte auf Scan...</div>
 		{/if}
 
 		{#if data}
