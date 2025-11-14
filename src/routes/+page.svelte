@@ -3,16 +3,54 @@
 	import { listen } from '@tauri-apps/api/event';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { parseGS1, type GS1Data, type KeyEvent } from '$lib/gs1';
+	import { confirm } from '@tauri-apps/plugin-dialog';
+	import { store } from '$lib/store.svelte';
+	import { invoke } from '@tauri-apps/api/core';
 
-	let scannedData = $state('');
 	let buffer: KeyEvent[] = $state([]);
 	let scanning = $state(false);
 	let data: GS1Data | null = $state(null);
+	let lastInput = $state(new Date());
 
 	$effect(() => {
+		if (!data?.expirationDate) return;
+		sendExpiration();
+	});
+
+	async function sendExpiration() {
+		if (!data?.expirationDate) return;
+
+		if (store.settings.askForConfirmation) {
+			const month = data.expirationDate.substring(2, 4);
+			const year = data.expirationDate.substring(0, 2);
+			const result = await confirm(
+				`Ablaufdatum ${month}/${year} eingeben?`,
+				'Ablaufdatum eingeben'
+			);
+			if (!result) return;
+		}
+
+		const keys = data.expirationDate.substring(2);
+		for (const key of keys) {
+			await invoke('simulate_key', { key });
+		}
+	}
+
+	$effect(() => {
+		setInterval(() => {
+			const now = new Date();
+			if (scanning && now.getTime() - lastInput.getTime() > 500) {
+				// Timeout after 500ms of inactivity
+				scanning = false;
+				buffer = [];
+			}
+		}, 500);
+
 		listen<{ key_code: string; label: string | null; state: string }>(
 			'global-key-event',
 			(event) => {
+				lastInput = new Date();
+
 				const { label, state } = event.payload;
 				if (state !== 'down') return;
 
@@ -45,14 +83,25 @@
 		<IconCog />
 	</Button>
 
-	<div class="flex flex-1 flex-col gap-4 overflow-y-auto">
-		{#if data}
-			<pre>{JSON.stringify(data, null, 2)}</pre>
-		{/if}
-		{#if scanning}
+	<div class="mt-10 flex flex-1 flex-col gap-4 overflow-y-auto">
+		{#if !scanning}
 			<div>Scannt...</div>
-		{:else}
-			<div>Warte auf Scan...</div>
+		{/if}
+
+		{#if data}
+			<div class="grid grid-cols-2">
+				<span>GTIN</span>
+				<span>{data?.gtin}</span>
+
+				<span>Verfallsdatum</span>
+				<span>{data?.expirationDate}</span>
+
+				<span>Charge</span>
+				<span>{data?.lotNumber}</span>
+
+				<span>Seriennummer</span>
+				<span>{data?.serialNumber}</span>
+			</div>
 		{/if}
 	</div>
 </div>
