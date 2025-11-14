@@ -2,6 +2,7 @@
 	import '../app.css';
 	import { store } from '$lib/store.svelte';
 	import { Spinner } from '$lib/components/ui/spinner';
+	import Tray from '$lib/components/tray.svelte';
 
 	let { children } = $props();
 
@@ -17,6 +18,8 @@
 		loaded = true;
 	}
 </script>
+
+<Tray />
 
 <div class="flex h-full w-full flex-col gap-4">
 	{#if loaded}
