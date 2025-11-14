@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconLoading from '~icons/mdi/loader2';
+	import IconLoading from '~icons/mdi/loading';
 	import { cn } from '$lib/utils.js';
 	import type { ComponentProps } from 'svelte';
 
