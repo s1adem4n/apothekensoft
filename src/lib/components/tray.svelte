@@ -3,7 +3,7 @@
 	import { Menu } from '@tauri-apps/api/menu';
 	import { exit } from '@tauri-apps/plugin-process';
 	import { defaultWindowIcon } from '@tauri-apps/api/app';
-	import { getCurrentWindow } from '@tauri-apps/api/window';
+	import { getCurrentWindow, LogicalSize } from '@tauri-apps/api/window';
 
 	let loaded = $state(false);
 
@@ -14,15 +14,19 @@
 		load();
 	});
 
+	async function showWindow() {
+		const window = getCurrentWindow();
+		await window.show();
+		await window.setFocus();
+	}
+
 	async function load() {
 		const menu = await Menu.new({
 			items: [
 				{
 					text: 'Öffnen',
 					action: async () => {
-						const window = getCurrentWindow();
-						await window.show();
-						await window.setFocus();
+						await showWindow();
 					}
 				},
 				{
@@ -39,9 +43,7 @@
 			showMenuOnLeftClick: false,
 			action: (e) => {
 				if (e.type === 'Click' && e.button === 'Left') {
-					const window = getCurrentWindow();
-					window.show();
-					window.setFocus();
+					showWindow();
 				}
 			},
 			icon: (await defaultWindowIcon())!
