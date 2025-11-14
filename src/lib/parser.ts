@@ -1,5 +1,4 @@
 export interface GS1Data {
-	gtin: string;
 	pzn: string;
 	serial: string;
 	expiry: string; // YYYY-MM-DD
@@ -9,7 +8,6 @@ export interface GS1Data {
 export function parseGS1(raw: string): GS1Data {
 	let pos = 0;
 	const result: GS1Data = {
-		gtin: '',
 		pzn: '',
 		serial: '',
 		expiry: '',
@@ -24,10 +22,18 @@ export function parseGS1(raw: string): GS1Data {
 	// variable-length AIs → stop at next AI or end
 	const variableAIs = ['10', '21'];
 
-	const isAI = (s: string) => fixedAIs[s] !== undefined || variableAIs.includes(s);
+	const knownAIs = ['01', '10', '17', '21'];
+	const isAI = (s: string) => knownAIs.includes(s);
 
 	while (pos < raw.length) {
+		// Check if we have at least 2 characters for AI
+		if (pos + 2 > raw.length) break;
+
 		const ai = raw.substring(pos, pos + 2);
+
+		// If not a known AI, stop parsing
+		if (!isAI(ai)) break;
+
 		pos += 2;
 
 		if (fixedAIs[ai] !== undefined) {
@@ -36,10 +42,7 @@ export function parseGS1(raw: string): GS1Data {
 			pos += len;
 
 			if (ai === '01') {
-				result.gtin = value;
-
-				// ❗ Extract PZN from GTIN/NTIN (Germany: digits 6..12)
-				// Example: 04150 + PZN(7) + check digit
+				// Extract PZN from GTIN (04150 prefix + 7 digit PZN)
 				if (value.startsWith('04150') && value.length === 14) {
 					result.pzn = value.substring(5, 12);
 				}
@@ -54,8 +57,12 @@ export function parseGS1(raw: string): GS1Data {
 		} else if (variableAIs.includes(ai)) {
 			const start = pos;
 
-			// find next AI
-			while (pos < raw.length && !isAI(raw.substring(pos, pos + 2))) {
+			// Variable length: read until we find another AI or reach the end
+			while (pos < raw.length) {
+				// Look ahead for next AI
+				if (pos + 2 <= raw.length && isAI(raw.substring(pos, pos + 2))) {
+					break;
+				}
 				pos++;
 			}
 
@@ -63,9 +70,6 @@ export function parseGS1(raw: string): GS1Data {
 
 			if (ai === '10') result.batch = value;
 			if (ai === '21') result.serial = value;
-		} else {
-			// unknown AI → fail-safe exit
-			break;
 		}
 	}
 

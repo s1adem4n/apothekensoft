@@ -1,29 +1,16 @@
 <script lang="ts">
 	import { listen } from '@tauri-apps/api/event';
-	import { invoke } from '@tauri-apps/api/core';
-
-	import { Button } from '$lib/components/ui/button';
-	import { parseGS1, type GS1Data } from '$lib/parser';
 
 	let string = $state('');
-	let data: GS1Data | null = $state(null);
+	let events = $state<any>([]);
 
 	$effect(() => {
 		listen<{ label: string | null }>('global-key-event', (event) => {
-			if (event.payload.label) {
-				string += event.payload.label;
-			}
-
-			const index = string.indexOf('0104150');
-			if (index !== -1) {
-				setTimeout(() => {
-					data = parseGS1(string.substring(index));
-					string = ''
-				}, 500);
-			}
+			events.push(event.payload);
 		});
 	});
 </script>
 
+<input bind:value={string} />
 <pre>{string}</pre>
-<pre>{JSON.stringify(data, null, 2)}</pre>
+<pre class="overflow-y-auto">{JSON.stringify(events, null, 2)}</pre>
