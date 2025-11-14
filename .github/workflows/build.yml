@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   publish-tauri:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -23,6 +23,26 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           cache-workspaces: src-tauri
+          target: x86_64-pc-windows-msvc
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y nsis lld llvm clang
+
+      - name: Install cargo-xwin
+        run: cargo install --locked cargo-xwin
+
+      - name: Create cache directory
+        run: mkdir -p ~/.cache/cargo-xwin
+
+      - name: Cache Windows SDKs
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/cargo-xwin
+          key: ${{ runner.os }}-cargo-xwin-${{ hashFiles('**/Cargo.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-xwin-
 
       - name: Install frontend dependencies
         run: bun install
@@ -34,3 +54,4 @@ jobs:
           tagName: v__VERSION__
           releaseName: "Apothekensoft v__VERSION__"
           prerelease: false
+          args: --runner cargo-xwin --target x86_64-pc-windows-msvc
