@@ -79,11 +79,11 @@
 	});
 </script>
 
-<div class="flex flex-col gap-4 p-4">
-	<Button variant="ghost" size="icon" href="/settings" class="absolute top-2 right-2">
-		<IconCog />
-	</Button>
+<Button variant="ghost" size="icon" href="/settings" class="absolute top-2 right-2">
+	<IconCog />
+</Button>
 
+<div class="flex flex-col gap-4 p-4">
 	<div class="mt-10 flex flex-1 flex-col gap-4 overflow-y-auto">
 		{#if scanning}
 			<div>Scannt...</div>
