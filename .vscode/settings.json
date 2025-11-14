@@ -1,0 +1,10 @@
+{
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.svelte-kit": true,
+  },
+  "[rust]": {
+    "editor.tabSize": 4,
+    "editor.indentSize": "tabSize"
+  }
+}
