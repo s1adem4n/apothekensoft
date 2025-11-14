@@ -24,9 +24,10 @@ jobs:
           target: x86_64-pc-windows-msvc
 
       - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y nsis lld llvm clang libayatana-appindicator3-dev
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: nsis lld llvm clang libayatana-appindicator3-dev
+          execute_install_scripts: true
 
       - name: Install cargo-xwin
         run: cargo install --locked cargo-xwin
