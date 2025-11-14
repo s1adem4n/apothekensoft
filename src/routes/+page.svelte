@@ -19,8 +19,9 @@
 
 	async function sendExpiration() {
 		if (!data?.expirationDate) return;
+		if (!store.settings.expiryDetection.enabled) return;
 
-		if (store.settings.askForConfirmation) {
+		if (store.settings.expiryDetection.confirmation) {
 			const month = data.expirationDate.substring(2, 4);
 			const year = data.expirationDate.substring(0, 2);
 			const result = await confirm(
@@ -92,8 +93,8 @@
 
 		{#if data}
 			<div class="grid grid-cols-2">
-				<span>GTIN</span>
-				<span>{data?.gtin}</span>
+				<span>PZN</span>
+				<span>{data?.gtin?.substring(5)}</span>
 
 				<span>Verfallsdatum</span>
 				<span>{data?.expirationDate}</span>

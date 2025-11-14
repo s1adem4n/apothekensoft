@@ -1,8 +1,10 @@
 import { load, Store as TauriStore } from '@tauri-apps/plugin-store';
 
 export interface Settings {
-	enabled: boolean;
-	askForConfirmation: boolean;
+	expiryDetection: {
+		enabled: boolean;
+		confirmation: boolean;
+	};
 }
 
 export class Store {
@@ -10,8 +12,10 @@ export class Store {
 	private initialized = false;
 
 	settings: Settings = $state({
-		enabled: true,
-		askForConfirmation: false
+		expiryDetection: {
+			enabled: true,
+			confirmation: false
+		}
 	});
 
 	async init() {
