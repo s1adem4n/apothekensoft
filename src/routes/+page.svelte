@@ -4,11 +4,24 @@
 
 	import { Button } from '$lib/components/ui/button';
 
-	$effect(() => {
-		listen('global-key-event', (event) => {
-			console.log('Received global key event:', event.payload);
-		});
+	let events: any[] = $state([]);
 
+	$effect(() => {
+		listen<{ key_code: string; label: string | null; state: string }>(
+			'global-key-event',
+			(event) => {
+				events.push(event);
+			}
+		);
+	});
+</script>
+
+<pre class="w-full overflow-y-auto">
+  {JSON.stringify(events, null, 2)}
+</pre>
+
+<Button
+	onclick={() => {
 		invoke('simulate_key', { key: 'a', press: true })
 			.then(() => {
 				console.log('Simulated key press "a"');
@@ -16,7 +29,7 @@
 			.catch((err) => {
 				console.error('Failed to simulate key press:', err);
 			});
-	});
-</script>
-
-<Button>Test</Button>
+	}}
+>
+	Test
+</Button>

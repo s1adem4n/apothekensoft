@@ -4,12 +4,14 @@ on:
   push:
     branches:
       - main
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
 
 jobs:
   publish-tauri:
-    permissions:
-      contents: write
-
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,6 +31,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: apothekensoft-v__VERSION__
+          tagName: v__VERSION__
           releaseName: "Apothekensoft v__VERSION__"
           prerelease: false
