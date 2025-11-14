@@ -3,6 +3,18 @@
 	import { store } from '$lib/store.svelte';
 	import { Spinner } from '$lib/components/ui/spinner';
 	import Tray from '$lib/components/tray.svelte';
+	import { onNavigate } from '$app/navigation';
+
+	onNavigate((navigation) => {
+		if (!document.startViewTransition) return;
+
+		return new Promise((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
+		});
+	});
 
 	let { children } = $props();
 
@@ -21,7 +33,7 @@
 
 <Tray />
 
-<div class="flex h-full w-full flex-col gap-4">
+<div class="flex w-full flex-1 flex-col items-center justify-center gap-4">
 	{#if loaded}
 		{@render children?.()}
 	{:else}

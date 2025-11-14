@@ -13,11 +13,17 @@
 	});
 </script>
 
-<div class="flex flex-col gap-4 p-4">
-	<Button variant="ghost" size="icon" href="/" class="absolute top-2 left-2">
-		<IconArrowLeft />
-	</Button>
+<Button
+	variant="ghost"
+	size="icon"
+	href="/"
+	class="absolute top-2 left-2"
+	style="view-transition-name: header-button;"
+>
+	<IconArrowLeft />
+</Button>
 
+<div class="flex w-full flex-1 flex-col gap-4 p-4">
 	<h1 class="text-center font-semibold">Einstellungen</h1>
 
 	<div class="flex flex-1 flex-col gap-4 overflow-y-auto">

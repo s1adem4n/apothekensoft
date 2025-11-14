@@ -18,7 +18,13 @@
 </script>
 
 {#if !loading}
-	<Button variant="ghost" size="icon" href="/settings" class="absolute top-2 left-2">
+	<Button
+		variant="ghost"
+		size="icon"
+		href="/settings"
+		class="absolute top-2 left-2"
+		style="view-transition-name: header-button;"
+	>
 		<IconArrowBack />
 	</Button>
 {/if}
