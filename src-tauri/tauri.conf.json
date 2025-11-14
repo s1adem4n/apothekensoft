@@ -36,7 +36,7 @@
 	},
 	"plugins": {
 		"updater": {
-			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDZBNjc2MjE4NEE1MzJCQTYKUldTbUsxTktHR0puYWhlMlk2bWRGQXlkMzEzaW5SN2ZHWVlaM0RSMmdBMHNDTG1JZHdBQ1hFRVYK",
+			"pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IENCN0E4MTIyMTIyRTNCMEIKUldRTE95NFNJb0Y2eXpaWHhXTVRsQTVZR3lHZEhNWFFYMHFjR0p2N3lQcXFaT3JSYjNoZGs5ZHgK",
 			"endpoints": [
 				"https://github.com/s1adem4n/apothekensoft/releases/latest/download/latest.json"
 			],
