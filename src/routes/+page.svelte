@@ -17,8 +17,8 @@
 			const index = string.indexOf('0104150');
 			if (index !== -1) {
 				setTimeout(() => {
-					alert(string.substring(index));
 					data = parseGS1(string.substring(index));
+					string = ''
 				}, 500);
 			}
 		});
