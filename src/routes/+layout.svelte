@@ -2,8 +2,10 @@
 	import '../app.css';
 	import { store } from '$lib/store.svelte';
 	import { Spinner } from '$lib/components/ui/spinner';
-	import Tray from '$lib/components/tray.svelte';
 	import { onNavigate } from '$app/navigation';
+
+	import Tray from '$lib/components/tray.svelte';
+	import Posthog from '$lib/components/posthog.svelte';
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -32,6 +34,7 @@
 </script>
 
 <Tray />
+<Posthog />
 
 <div class="flex w-full flex-1 flex-col items-center justify-center gap-4">
 	{#if loaded}
