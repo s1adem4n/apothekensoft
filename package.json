@@ -13,17 +13,18 @@
 	},
 	"license": "MIT",
 	"dependencies": {
+		"@internationalized/date": "^3.8.1",
 		"@tauri-apps/api": "^2",
 		"@tauri-apps/plugin-dialog": "~2",
 		"@tauri-apps/plugin-opener": "^2",
 		"@tauri-apps/plugin-process": "~2",
 		"@tauri-apps/plugin-store": "~2",
 		"@tauri-apps/plugin-updater": "~2",
-		"tailwind-merge": "^3.3.1",
-		"tailwind-variants": "^3.1.1",
 		"bits-ui": "^2.11.0",
 		"clsx": "^2.1.1",
-		"@internationalized/date": "^3.8.1"
+		"posthog-js": "^1.292.0",
+		"tailwind-merge": "^3.3.1",
+		"tailwind-variants": "^3.1.1"
 	},
 	"devDependencies": {
 		"@iconify-json/mdi": "^1.2.3",

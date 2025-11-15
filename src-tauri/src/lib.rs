@@ -84,7 +84,6 @@ fn windows_key_listener(app: AppHandle) {
     use windows::Win32::Foundation::LPARAM;
     use windows::Win32::Foundation::LRESULT;
     use windows::Win32::Foundation::WPARAM;
-    use windows::Win32::UI::Input::KeyboardAndMouse::*;
     use windows::Win32::UI::WindowsAndMessaging::*;
 
     unsafe extern "system" fn keyboard_hook_proc(
@@ -231,6 +230,7 @@ fn virtual_key_to_info(vk: u32) -> Option<(&'static str, &'static str)> {
     }
 }
 
+#[cfg(not(windows))]
 fn map_key_event(event: &Event) -> Option<GlobalKeyEventPayload> {
     match event.event_type {
         EventType::KeyPress(key) => Some(GlobalKeyEventPayload {
