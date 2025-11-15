@@ -1,3 +1,6 @@
+#![allow(unused_imports)]
+#![allow(dead_code)]
+
 use rdev::{Event, EventType, Key};
 use serde::Serialize;
 use std::{thread, time};
